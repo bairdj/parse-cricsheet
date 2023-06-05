@@ -1,4 +1,4 @@
-namespace ParseCricsheet.Model;
+namespace ParseCricsheet.Model.Input;
 
 /// <summary>
 /// In the data, sometimes the season is recorded as a number, sometimes as a string.

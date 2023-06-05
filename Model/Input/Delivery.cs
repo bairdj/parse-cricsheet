@@ -1,4 +1,4 @@
-namespace ParseCricsheet.Model;
+namespace ParseCricsheet.Model.Input;
 
 public record Delivery {
     public string Batter { get; init; }

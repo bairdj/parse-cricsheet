@@ -1,5 +1,5 @@
 namespace ParseCricsheet.Process;
-using ParseCricsheet.Model;
+using ParseCricsheet.Model.Input;
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;

@@ -1,4 +1,4 @@
-namespace ParseCricsheet.Model;
+namespace ParseCricsheet.Model.Input;
 using System.Text.Json.Serialization;
 
 public record Extras

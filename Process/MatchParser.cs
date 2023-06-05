@@ -1,6 +1,6 @@
 namespace ParseCricsheet.Process;
 using System.Text.Json;
-using ParseCricsheet.Model;
+using ParseCricsheet.Model.Input;
 using System.Threading.Tasks;
 using System.IO;
 using System.IO.Compression;
