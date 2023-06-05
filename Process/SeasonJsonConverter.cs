@@ -8,11 +8,20 @@ public class SeasonJsonConverter : JsonConverter<Season>
 {
     public override Season Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
+        if (reader.TokenType == JsonTokenType.String)
+        {
+            return new Season(reader.GetString()!);
+        }
+        if (reader.TokenType == JsonTokenType.Number)
+        {
+            return new Season(reader.GetInt32());
+        }
+        throw new JsonException();
     }
 
     public override void Write(Utf8JsonWriter writer, Season value, JsonSerializerOptions options)
     {
         writer.WriteStringValue(value.ToString());
     }
+
 }
