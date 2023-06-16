@@ -26,12 +26,11 @@ var context = new CricsheetContext(contextOptions.Options);
 // Delete and recreate the database
 await context.Database.EnsureDeletedAsync();
 await context.Database.EnsureCreatedAsync();
+context.ChangeTracker.AutoDetectChangesEnabled = false;
 
 await foreach (var match in matches) {
     var matchWriter = new MatchWriter(match);
     var entities = matchWriter.GetMatchEntities();
-    foreach(var entity in entities) {
-        await context.AddAsync(entity);
-    }
+    await context.AddRangeAsync(entities);
     await context.SaveChangesAsync();
 }
