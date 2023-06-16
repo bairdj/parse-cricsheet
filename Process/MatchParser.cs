@@ -15,6 +15,8 @@ public class MatchParser
         };
         _jsonOptions.Converters.Add(new DateOnlyJsonConverter());
         _jsonOptions.Converters.Add(new SeasonJsonConverter());
+        _jsonOptions.Converters.Add(new PlayerIdJsonConverter());
+        _jsonOptions.Converters.Add(new PlayerNameJsonConverter());
     }
 
     public async Task<Match?> ParseAsync(Stream jsonStream) {
@@ -31,6 +33,7 @@ public class MatchParser
             using var jsonStream = File.OpenRead(filePath);
             var parsedMatch = await ParseAsync(jsonStream);
             if (parsedMatch == null) continue;
+            parsedMatch.MatchId = Path.GetFileNameWithoutExtension(filePath);
             yield return parsedMatch;
         }
     }
@@ -51,6 +54,7 @@ public class MatchParser
                 Console.WriteLine($"Failed to parse {entry.Name}: {e.Message}");
             }
             if (parsedMatch != null) {
+                parsedMatch.MatchId = Path.GetFileNameWithoutExtension(entry.Name);
                 yield return parsedMatch;
             }
         }
