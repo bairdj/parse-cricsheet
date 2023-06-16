@@ -69,6 +69,7 @@ public class MatchWriter
                     };
                     
                     if (delivery.Wickets != null) {
+                        int wicketNumber = 1;
                         foreach(var wicket in delivery.Wickets) {
                             yield return new Model.Output.Wicket {
                                 MatchId = _match.MatchId,
@@ -77,8 +78,10 @@ public class MatchWriter
                                 Ball = ballNumber,
                                 Batter = _playerMap[wicket.PlayerOut],
                                 Bowler = _playerMap[delivery.Bowler],
-                                Kind = wicket.Kind
+                                Kind = wicket.Kind,
+                                WicketNumber = wicketNumber
                             };
+                            wicketNumber++;
                         }
                     }
                     ballNumber++;

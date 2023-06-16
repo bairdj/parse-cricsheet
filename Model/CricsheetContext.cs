@@ -30,7 +30,7 @@ public class CricsheetContext : DbContext {
             a.HasKey(b => new { b.MatchId, b.InningsNumber, b.Over, b.Ball });
         });
         modelBuilder.Entity<Output.Wicket>(a => {
-            a.HasKey(b => new { b.MatchId, b.InningsNumber, b.Over, b.Ball });
+            a.HasKey(b => new { b.MatchId, b.InningsNumber, b.Over, b.Ball, b.WicketNumber });
             a.Property(b => b.Batter).HasConversion<string>(
                 p => p.Id,
                 p => new PlayerId(p)
