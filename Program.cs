@@ -1,36 +1,24 @@
-﻿using ParseCricsheet.Model.Input;
-using ParseCricsheet.Process;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using ParseCricsheet.Model;
-using Microsoft.EntityFrameworkCore;
+﻿using ParseCricsheet.Process;
+using System.CommandLine;
 
-// Check args
-if (args.Length != 2) {
-    Console.WriteLine("Usage: ParseCricsheet <path to ZIP archive> <path to output database>");
-    return;
-}
+var rootCommand = new RootCommand("parse-cricsheet");
 
-var zipPath = args[0];
-var outputPath = args[1];
+var registerOption = new Option<string>("--register", "Path to people.csv");
+var zipArgument = new Argument<string>("zip", "Path to cricsheet zip file");
+var outputArgument = new Argument<string>("output", "Path to output sqlite file");
 
-var matchParser = new MatchParser();
+rootCommand.AddOption(registerOption);
+rootCommand.AddArgument(zipArgument);
+rootCommand.AddArgument(outputArgument);
 
-var matches = matchParser.ParseZipAsync(zipPath);
+rootCommand.SetHandler(async (registerValue, zipValue, outputValue) => {
+    var options = new RunnerOptions {
+        RegisterPath = registerValue,
+        ZipPath = zipValue,
+        OutputPath = outputValue
+    };
 
-var contextOptions = new DbContextOptionsBuilder<CricsheetContext>()
-    .UseSqlite($"Data Source={outputPath}");
+    await Runner.Run(options);
+}, registerOption, zipArgument, outputArgument);
 
-var context = new CricsheetContext(contextOptions.Options);
-
-// Delete and recreate the database
-await context.Database.EnsureDeletedAsync();
-await context.Database.EnsureCreatedAsync();
-context.ChangeTracker.AutoDetectChangesEnabled = false;
-
-await foreach (var match in matches) {
-    var matchWriter = new MatchWriter(match);
-    var entities = matchWriter.GetMatchEntities();
-    await context.AddRangeAsync(entities);
-    await context.SaveChangesAsync();
-}
+await rootCommand.InvokeAsync(args);
