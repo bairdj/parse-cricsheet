@@ -2,7 +2,7 @@ using ParseCricsheet.Model.Input;
 
 namespace ParseCricsheet.Model.Output;
 
-public class Wicket
+public record Wicket : DbOutput
 {
     public string MatchId { get; init; }
     public int InningsNumber { get; init; }

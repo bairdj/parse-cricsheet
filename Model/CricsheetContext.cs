@@ -36,6 +36,15 @@ public class CricsheetContext : DbContext {
             a.HasKey(b => b.PlayerId);
             a.Property(b => b.PlayerId).HasConversion<string>(playerIdConverter);
         });
+        modelBuilder.Entity<Output.Official>(a => {
+            a.HasDiscriminator<string>("OfficialType")
+                .HasValue<Output.MatchReferee>("MatchReferee")
+                .HasValue<Output.ReserveUmpire>("ReserveUmpire")
+                .HasValue<Output.TvUmpire>("TvUmpire")
+                .HasValue<Output.Umpire>("Umpire");
+
+            a.HasKey(b => new { b.Id });
+        });
     }
 
 }

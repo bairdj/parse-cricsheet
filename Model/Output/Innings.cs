@@ -1,6 +1,6 @@
 namespace ParseCricsheet.Model.Output;
 
-public class Innings
+public record Innings : DbOutput
 {
     public string MatchId { get; init; }
     public Match Match { get; init; }

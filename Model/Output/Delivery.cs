@@ -1,7 +1,7 @@
 using ParseCricsheet.Model.Input;
 namespace ParseCricsheet.Model.Output;
 
-public class Delivery
+public record Delivery : DbOutput
 {
     public string MatchId { get; init; }
     public int InningsNumber { get; init; }
