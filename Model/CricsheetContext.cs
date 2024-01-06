@@ -45,6 +45,10 @@ public class CricsheetContext : DbContext {
 
             a.HasKey(b => new { b.Id });
         });
+        modelBuilder.Entity<Output.Fielder>(a => {
+            a.HasKey(b => new { b.MatchId, b.InningsNumber, b.Over, b.Ball, b.WicketNumber, b.FielderNumber });
+            a.Property(b => b.FielderId).HasConversion<string>(playerIdConverter);
+        });
     }
 
 }

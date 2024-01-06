@@ -134,9 +134,27 @@ public class MatchWriter
                                 Kind = wicket.Kind,
                                 WicketNumber = wicketNumber
                             };
+                            if (wicket.Fielders != null) {
+                                var fielderNumber = 1;
+                                foreach (var fielder in wicket.Fielders) {
+                                    yield return new Model.Output.Fielder
+                                    {
+                                        MatchId = _match.MatchId,
+                                        InningsNumber = inningsNumber,
+                                        Over = overNumber,
+                                        Ball = ballNumber,
+                                        WicketNumber = wicketNumber,
+                                        FielderId = _playerMap[fielder.Name],
+                                        Substitute = fielder.Substitute ?? false,
+                                        FielderNumber = fielderNumber
+                                    };
+                                    fielderNumber++;
+                                }
+                            }
                             wicketNumber++;
                         }
                     }
+
                     ballNumber++;
                 }
                 overNumber++;
